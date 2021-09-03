@@ -41,3 +41,6 @@ newFile = open(output_path, 'wb')
 pdf_merger.write(newFile)
 
 pdf_merger.close()
+
+if os.path.exists(blank_path):
+  os.remove(blank_path)
