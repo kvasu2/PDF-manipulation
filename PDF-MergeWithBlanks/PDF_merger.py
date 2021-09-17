@@ -19,7 +19,7 @@ if not os.path.isfile(blank_path):
 output_path = os.path.join(basepath,'output.pdf')
 
 
-pdf_merger = PyPDF2.PdfFileMerger()
+pdf_merger = PyPDF2.PdfFileMerger(strict=False)
 
 
 for entry in os.listdir(files_path):
