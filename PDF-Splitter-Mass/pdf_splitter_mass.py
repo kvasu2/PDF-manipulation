@@ -12,7 +12,7 @@ def pdf_splitter(path,strt,ed):
 		try:
 			pdf.decrypt('')
 		except:
-			pdf.decrypt(input("Enter password: "))
+			pdf.decrypt(input("Enter password for {}: ".format(fname)))
 			
 	pdf_writer = PdfFileWriter()
 	for page in range(strt-1,ed):
