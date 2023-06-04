@@ -1,7 +1,5 @@
 # PDF-manipulation
 
-PyPDF2 package must be installed
-
 Requirements
 The script requires the following dependencies:
 
