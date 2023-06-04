@@ -36,3 +36,9 @@ Place these files in the `input` directory:
     │   document3.pdf
 
 ```
+
+Now run the script (`pdf_merger.py`) using a Python interpreter. You can do this via the terminal or command prompt with the command: 
+```console
+python pdf_merger.py
+```
+After running the script, the `input` directory will still contain your original files, and you will find a new file, `output.pdf`, in the base directory. In the `output.pdf`, you'll find the contents of `document1.pdf`, `document2.pdf` followed by a blank page (since it had an odd number of pages), and then `document3.pdf`, for a total of 22 pages.
