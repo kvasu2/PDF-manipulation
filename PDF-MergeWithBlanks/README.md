@@ -1,9 +1,3 @@
-add files to be merged into input folder
-
-run PDF_merger.py
-
-This will take all the file in the input folder and merger them by adding a blank when the files have odd number of pages
-
 # PDF Merger with Even Page Count
 
 This Python script utilizes the PyPDF2 library to merge multiple PDF files, while ensuring that each document has an even number of pages.
