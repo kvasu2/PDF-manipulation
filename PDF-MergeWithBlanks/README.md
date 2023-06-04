@@ -28,6 +28,6 @@ Place these files in the `input` directory:
 
 - pdf_merger.py
 - input
-   --document1.pdf
-   --document2.pdf
-   --document3.pdf
+   - document1.pdf
+   - document2.pdf
+   - document3.pdf
