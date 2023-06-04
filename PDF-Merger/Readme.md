@@ -37,7 +37,7 @@ The out.pdf file will contain the merged content of file1.pdf, file2.pdf, and fi
 
 ## Code Explanation
 
-1. Defining the `merger` Function:
+1. Defining the `merger` Function:<br />
 The merger function takes an `output_path` and a list of `input_paths` as parameters. It performs the merging of PDF files using the PdfFileWriter and PdfFileReader classes from PyPDF2.
 
 2. Gathering Input PDF Files:
