@@ -1,6 +1,10 @@
 # PDF-manipulation
 
-Requirements
+## Usage
+
+Run PDF_Editor.py for merging and splitting PDFs
+
+## Requirements
 The script requires the following dependencies:
 
 PyPDF2: A Python library for reading and manipulating PDF files.
