@@ -1,6 +1,10 @@
 # PDF Merger
 
-## Usage
+## Usage of pdf_merger_BARD.py
+
+pdf_merger_BARD.py is a GUI written by BARD to merger PDFs.
+
+## Usage of pdf_merger.py
 
 The pdf_merger.py script is a Python program that merges multiple PDF files into a single PDF file.
 
