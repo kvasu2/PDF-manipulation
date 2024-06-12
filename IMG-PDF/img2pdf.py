@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import glob
 from PyPDF2 import PdfFileWriter, PdfFileReader
+import shutil
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -56,3 +57,6 @@ for f in inps:
 output_path = os.path.join(dir_path,"out.pdf")
 
 merger(output_path, inp_files)
+
+# Delete the temp folder
+shutil.rmtree(os.path.join(dir_path, "temp"))
