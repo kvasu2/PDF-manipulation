@@ -1,5 +1,11 @@
 # IMG to PDF
 
+You will need the pillow package
+
+```console
+pip install pillow
+```
+
 ## Usage of img2pdf.py
 
 The img2pdf.py script converts img files to pdf and merges them to form one pdf file
