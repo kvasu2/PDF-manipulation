@@ -103,3 +103,28 @@ def enhance_folder(img_dir, output_dir):
         output_path = os.path.join(output_dir,image)
         enhance_image(os.path.join(img_dir,image),output_path)
 
+def pdf_splitter(path,out_dir,strt,ed):
+    fname = os.path.splitext(os.path.basename(path))[0]
+	
+    pdf = PyPDF2.PdfFileReader(path)
+    if pdf.isEncrypted:
+        try:
+            pdf.decrypt('')
+        except:
+            pdf.decrypt(input("Enter password: "))
+		
+    pdf_writer = PyPDF2.PdfFileWriter()
+    try:
+        for page in range(strt-1,ed):
+            pdf_writer.addPage(pdf.getPage(page))
+    except:
+        print("Invalid page range")
+        return -1
+
+    output_filename =os.path.join( out_dir,'{}_pages_{}-{}.pdf'.format(fname, strt,ed))
+
+    with open(output_filename, 'wb') as out:
+        pdf_writer.write(out)
+        
+    return 0
+

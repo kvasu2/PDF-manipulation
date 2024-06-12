@@ -9,11 +9,11 @@ This application can
 
 ## Usage
 
-Run main.py by
+Run main.py by either
 
-1. Double clicking on `main.py`
+- Double clicking on `main.py`
 
-2. Run
+- Run
 ```console
 python main.py
 ```
