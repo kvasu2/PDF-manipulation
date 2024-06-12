@@ -76,9 +76,12 @@ tabControl = ttk.Notebook(root)
 
 tab1 = ttk.Frame(tabControl) 
 tab2 = ttk.Frame(tabControl) 
+tab3 = ttk.Frame(tabControl)
+
 
 tabControl.add(tab1, text ='MergePDF') 
 tabControl.add(tab2, text ='IMG2PDF') 
+tabControl.add(tab3, text="Merge PDFs with Bookmarks")
 tabControl.pack(expand = 1, fill ="both") 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -157,8 +160,7 @@ run_button.pack(pady=5)
 
 
 # Tab 3: Merge PDFs with Bookmarks
-tab3 = ttk.Frame(tabControl)
-tabControl.add(tab3, text="Merge PDFs with Bookmarks")
+
 
 input_label2 = tk.Label(tab3, text="Input Folder:")
 input_label2.pack(pady=10)
@@ -192,7 +194,6 @@ output_button2.pack(pady=5)
 merge_button2 = tk.Button(tab3, text="Merge PDFs with Bookmarks", command=lambda: pdf_manipulation.merge_pdfs_with_bookmarks(input_entry2.get(), csv_entry.get(), output_entry2.get()))
 merge_button2.pack(pady=5)
 
-tabControl.pack(expand=1, fill="both")
 
 def select_input_folder(entry):
     input_folder = filedialog.askdirectory(title="Select Input Folder")
