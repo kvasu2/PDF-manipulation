@@ -1,22 +1,26 @@
 import os
 import PyPDF2
 import csv
+from PIL import Image
+import cv2
+import numpy as np
+import shutil
 
 def merge_pdfs(input_folder, output_folder):
-    merger = PyPDF2.PdfMerger()
+    pdf_writer = PyPDF2.PdfFileWriter()
 
     for filename in os.listdir(input_folder):
         if filename.endswith('.pdf'):
             pdf_file = os.path.join(input_folder, filename)
-            with open(pdf_file, 'rb') as f:
-                reader = PyPDF2.PdfReader(f)
-                merger.append(reader)
+            pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+            for page in range(pdf_reader.getNumPages()):
+                pdf_writer.addPage(pdf_reader.getPage(page))
 
     merged_filename = 'merged.pdf'
     output_path = os.path.join(output_folder, merged_filename)
 
-    with open(output_path, 'wb') as f:
-        merger.write(f)
+    with open(output_path, 'wb') as fh:
+        pdf_writer.write(fh)
 
 def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
     with open(csv_path, 'r') as csvfile:
@@ -43,3 +47,59 @@ def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
 
     with open(output_path, 'wb') as f:
         merger.write(f)
+
+
+def convert2pdf(input_dir,output_dir,enhance_img=False,delete_processed_images=False,delete_temp_pdfs=False):
+    
+    image_paths = sorted(os.listdir(input_dir))
+
+    if enhance_img:
+        processed_image_path = os.path.join(output_dir,"enhanced_images")
+
+        if os.path.exists(processed_image_path):
+            shutil.rmtree(processed_image_path)
+            os.makedirs(processed_image_path)
+        else:
+            os.makedirs(processed_image_path)
+
+    converted_pdfs_path = os.path.join(output_dir,"converted_pdfs")
+    if os.path.exists(converted_pdfs_path):
+        shutil.rmtree(converted_pdfs_path)
+        os.makedirs(converted_pdfs_path)
+    else:
+        os.makedirs(converted_pdfs_path)
+
+    for input_image in image_paths:
+        pdf = open(os.path.join(converted_pdfs_path,input_image)+'.pdf', 'wb')
+        if enhance_img:
+            image = enhance_image(os.path.join(input_dir,input_image),os.path.join(output_dir,"enhanced_images",input_image))
+            image = Image.fromarray(image)
+        else:
+            image = Image.open(os.path.join(input_dir,input_image))
+        image = image.convert('RGB')
+        image.save(pdf, 'PDF')
+        pdf.close()
+    
+    merge_pdfs(converted_pdfs_path,output_dir)
+
+    if delete_processed_images and enhance_img:
+        shutil.rmtree(processed_image_path)
+    if delete_temp_pdfs:
+        shutil.rmtree(converted_pdfs_path)
+
+def enhance_image(image_path,output_path):
+    img = cv2.imread(image_path)
+    norm_img = np.zeros((img.shape[0], img.shape[1]))
+    img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
+    img = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 15)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
+    cv2.imwrite(output_path,img)
+    return img
+
+def enhance_folder(img_dir, output_dir):
+    image_paths = sorted(os.listdir(img_dir))
+    for image in image_paths:
+        output_path = os.path.join(output_dir,image)
+        enhance_image(os.path.join(img_dir,image),output_path)
+
