@@ -12,7 +12,7 @@ The img2pdf.py script converts img files to pdf and merges them to form one pdf 
 
 Copy the image files to "input" folder
 
-Open terminal and type the following (or double click on pdf_merger.py on Windows)
+Open terminal and type the following (or double click on img2pdf.py on Windows)
 
 ```console
 python img2pdf.py
