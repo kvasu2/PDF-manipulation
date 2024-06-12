@@ -1,7 +1,7 @@
 import os
 import csv
 import importlib
-PyPDF2=importlib.import_module('PyPDF2')
+
 #import PyPDF2
 Image = importlib.import_module('PIL.Image')
 #from PIL import Image
@@ -11,6 +11,7 @@ import numpy as np
 import shutil
 
 def merge_pdfs(input_folder, output_folder):
+    PyPDF2=importlib.import_module('PyPDF2')
     pdf_writer = PyPDF2.PdfFileWriter()
 
     for filename in os.listdir(input_folder):
@@ -27,6 +28,7 @@ def merge_pdfs(input_folder, output_folder):
         pdf_writer.write(fh)
 
 def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
+    PyPDF2=importlib.import_module('PyPDF2')
     with open(csv_path, 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         merger = PyPDF2.PdfMerger()
@@ -54,6 +56,7 @@ def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
 
 
 def convert2pdf(input_dir,output_dir,enhance_img=False,delete_processed_images=False,delete_temp_pdfs=False):
+    
     
     image_paths = sorted(os.listdir(input_dir))
 
@@ -108,6 +111,7 @@ def enhance_folder(img_dir, output_dir):
         enhance_image(os.path.join(img_dir,image),output_path)
 
 def pdf_splitter(path,out_dir,strt,ed):
+    PyPDF2=importlib.import_module('PyPDF2')
     fname = os.path.splitext(os.path.basename(path))[0]
 	
     pdf = PyPDF2.PdfFileReader(path)
