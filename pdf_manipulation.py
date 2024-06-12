@@ -17,7 +17,7 @@ def merge_pdfs(input_folder, output_folder):
     for filename in os.listdir(input_folder):
         if filename.endswith('.pdf'):
             pdf_file = os.path.join(input_folder, filename)
-            pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+            pdf_reader = PyPDF2.PdfReader(pdf_file)
             for page in range(pdf_reader.getNumPages()):
                 pdf_writer.addPage(pdf_reader.getPage(page))
 
@@ -116,7 +116,7 @@ def pdf_splitter(path,out_dir,strt,ed):
     PyPDF2=importlib.import_module('PyPDF2')
     fname = os.path.splitext(os.path.basename(path))[0]
 	
-    pdf = PyPDF2.PdfFileReader(path)
+    pdf = PyPDF2.PdfReader(path)
     if pdf.isEncrypted:
         try:
             pdf.decrypt('')
