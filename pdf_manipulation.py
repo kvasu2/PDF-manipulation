@@ -12,7 +12,7 @@ import shutil
 
 def merge_pdfs(input_folder, output_folder):
     PyPDF2=importlib.import_module('PyPDF2')
-    pdf_writer = PyPDF2.PdfFileWriter()
+    pdf_writer = PyPDF2.PdfWriter()
 
     for filename in os.listdir(input_folder):
         if filename.endswith('.pdf'):
@@ -123,7 +123,7 @@ def pdf_splitter(path,out_dir,strt,ed):
         except:
             pdf.decrypt(input("Enter password: "))
 		
-    pdf_writer = PyPDF2.PdfFileWriter()
+    pdf_writer = PyPDF2.PdfWriter()
     try:
         for page in range(strt-1,ed):
             pdf_writer.addPage(pdf.getPage(page))

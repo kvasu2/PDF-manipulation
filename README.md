@@ -22,15 +22,20 @@ python main.py
 ## Requirements
 The script requires the following dependencies:
 
-PyPDF2: A Python library for reading and manipulating PDF files.
+- Numpy
 
-Pillow: Pillow is a Python library that provides image processing capabilities, such as opening, manipulating, and saving different image file formats.
+- PyPDF2: A Python library for reading and manipulating PDF files.
 
-OpenCV: OpenCV is a popular computer vision library that provides various functions and algorithms for image and video processing.
+For image processing and manipulation
+
+- Pillow: Pillow is a Python library that provides image processing capabilities, such as opening, manipulating, and saving different image file formats.
+
+- OpenCV: OpenCV is a popular computer vision library that provides various functions and algorithms for image and video processing.
 
 Ensure that the required dependencies are installed by running the following
 
 ```console
+pip install numpy
 pip install PyPDF2
 pip install pillow
 pip install opencv-python
