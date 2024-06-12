@@ -3,9 +3,9 @@ import csv
 import importlib
 
 #import PyPDF2
-Image = importlib.import_module('PIL.Image')
+
 #from PIL import Image
-cv2 = importlib.import_module('cv2')
+
 #import cv2
 import numpy as np
 import shutil
@@ -56,6 +56,7 @@ def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
 
 
 def convert2pdf(input_dir,output_dir,enhance_img=False,delete_processed_images=False,delete_temp_pdfs=False):
+    Image = importlib.import_module('PIL.Image')
     
     
     image_paths = sorted(os.listdir(input_dir))
@@ -95,6 +96,7 @@ def convert2pdf(input_dir,output_dir,enhance_img=False,delete_processed_images=F
         shutil.rmtree(converted_pdfs_path)
 
 def enhance_image(image_path,output_path):
+    cv2 = importlib.import_module('cv2')
     img = cv2.imread(image_path)
     norm_img = np.zeros((img.shape[0], img.shape[1]))
     img = cv2.normalize(img, norm_img, 0, 255, cv2.NORM_MINMAX)
