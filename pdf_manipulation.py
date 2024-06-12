@@ -1,8 +1,12 @@
 import os
-import PyPDF2
 import csv
-from PIL import Image
-import cv2
+import importlib
+PyPDF2=importlib.import_module('PyPDF2')
+#import PyPDF2
+Image = importlib.import_module('PIL.Image')
+#from PIL import Image
+cv2 = importlib.import_module('cv2')
+#import cv2
 import numpy as np
 import shutil
 
