@@ -19,7 +19,7 @@ def merge_pdfs(input_folder, output_folder):
             pdf_file = os.path.join(input_folder, filename)
             pdf_reader = PyPDF2.PdfReader(pdf_file)
             for page in range(len(pdf_reader.pages)):
-                pdf_writer.addPage(pdf_reader.pages[page])
+                pdf_writer.add_page(pdf_reader.pages[page])
 
     merged_filename = 'merged.pdf'
     output_path = os.path.join(output_folder, merged_filename)
@@ -126,7 +126,7 @@ def pdf_splitter(path,out_dir,strt,ed):
     pdf_writer = PyPDF2.PdfWriter()
     try:
         for page in range(strt-1,ed):
-            pdf_writer.addPage(pdf.page[page])
+            pdf_writer.add_page(pdf.page[page])
     except:
         print("Invalid page range")
         return -1
