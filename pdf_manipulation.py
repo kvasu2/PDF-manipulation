@@ -18,7 +18,7 @@ def merge_pdfs(input_folder, output_folder):
         if filename.endswith('.pdf'):
             pdf_file = os.path.join(input_folder, filename)
             pdf_reader = PyPDF2.PdfReader(pdf_file)
-            for page in range(pdf_reader.getNumPages()):
+            for page in range(len(pdf_reader.pages)):
                 pdf_writer.addPage(pdf_reader.getPage(page))
 
     merged_filename = 'merged.pdf'
