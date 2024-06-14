@@ -23,6 +23,21 @@ def merge_pdfs(input_folder, output_folder,merged_filename):
     with open(output_path, 'wb') as fh:
         pdf_writer.write(fh)
 
+def merge_pdfs_in_order(files_list,output_folder,merged_filename):
+    pdf_writer = PyPDF2.PdfWriter()
+
+    for pdf_file in files_list:
+        print(pdf_file)
+        if pdf_file.lower().endswith('.pdf'):
+            pdf_reader = PyPDF2.PdfReader(pdf_file)
+            for page in range(len(pdf_reader.pages)):
+                pdf_writer.add_page(pdf_reader.pages[page])
+
+    output_path = os.path.join(output_folder, merged_filename)
+
+    with open(output_path, 'wb') as fh:
+        pdf_writer.write(fh)
+
 def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder,merged_filename):
     with open(csv_path, 'r') as csvfile:
         reader = csv.DictReader(csvfile)

@@ -19,6 +19,7 @@ def module_install_info(module_name):
 
 try:
     import pdf_manipulation
+    import reorder
 except ImportError as e:
     messagebox.showerror("Error", f"{e.name} module is missing. Please install the required modules by running \n{module_install_info(e.name)}")
     exit()
@@ -30,6 +31,8 @@ class PDFApp(tk.Tk):
 
         #---------------------------------------------------------------------------------------------------------
         # UI
+
+        self.ordered_list=[]
 
         self.title("Tab Widget") 
         self.tabControl = ttk.Notebook(self) 
@@ -54,6 +57,20 @@ class PDFApp(tk.Tk):
 
         self.input_button_1 = tk.Button(self.tab1, text="Select Input Folder", command=self.select_input_entry_1)
         self.input_button_1.pack(pady=5)
+
+        self.get_order_button = tk.Button(self.tab1, text="Select and Order PDFs", command=self.get_pdf_order)
+        self.get_order_button.pack(pady=5)
+
+        self.choice = tk.IntVar()
+        
+
+        self.R1 = tk.Radiobutton(self.tab1, text="Merge PDFs in folder", variable=self.choice, value=1)
+        self.R1.pack(anchor=tk.W)
+
+        self.R2 = tk.Radiobutton(self.tab1, text="Select and order", variable=self.choice, value=2)
+        self.R2.pack(anchor=tk.W)
+
+        self.choice.set(1)
 
         self.output_label_1 = tk.Label(self.tab1, text="Output Folder:")
         self.output_label_1.pack(pady=10)
@@ -166,27 +183,55 @@ class PDFApp(tk.Tk):
         output_dir = self.output_entry_1.get()
         merged_filename = self.merged_file_1.get()
 
-        if not input_dir or not output_dir:
-            messagebox.showerror("Error", "Please select both folder paths.")
+        if not input_dir and self.choice.get() == 1:
+            messagebox.showerror("Error", "Please select Input folder.")
+            return
+        
+        if not output_dir:
+            messagebox.showerror("Error", "Please select an output folder.")
             return
         
         if not merged_filename:
             messagebox.showerror("Error", "Please enter an output filename.")
             return
         merged_filename = merged_filename+".pdf"
-        
-        try:
-            pdf_manipulation.merge_pdfs(input_dir, output_dir,merged_filename)
-        except Exception as e:
-            self.progress_1.config(text="")
-            messagebox.showerror("Error", f"{e}")
+
+        if self.choice.get() == 1:
             
-            return
+            try:
+                pdf_manipulation.merge_pdfs(input_dir, output_dir,merged_filename)
+            except Exception as e:
+                self.progress_1.config(text="")
+                messagebox.showerror("Error", f"{e}")
+                return
+
+            
+        
+        elif self.choice.get() == 2:
+            try:
+                pdf_manipulation.merge_pdfs_in_order(self.ordered_list,output_dir,merged_filename)
+            except Exception as e:
+                self.progress_1.config(text="")
+                messagebox.showerror("Error", f"{e}")
+                return
 
         self.progress_1.config(text="Merging PDFs successful.")
 
         messagebox.showinfo("Done", "Merging PDFs successful.")
         self.destroy()
+        
+    def get_pdf_order(self):
+        self.progress_1.config(text="Select and order PDFs...")
+        self.progress_1.update_idletasks()
+
+        sbroot = tk.Toplevel(self)
+        reorder.Application(sbroot,ordered_list=self.ordered_list)
+        
+        print(self.ordered_list)
+        
+
+
+        
 
     def run_img2pdf(self):
         self.progress_2.config(text="Converting images to PDF. Please wait...")
