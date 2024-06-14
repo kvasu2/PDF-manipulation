@@ -27,7 +27,6 @@ def merge_pdfs_in_order(files_list,output_folder,merged_filename):
     pdf_writer = PyPDF2.PdfWriter()
 
     for pdf_file in files_list:
-        print(pdf_file)
         if pdf_file.lower().endswith('.pdf'):
             pdf_reader = PyPDF2.PdfReader(pdf_file)
             for page in range(len(pdf_reader.pages)):

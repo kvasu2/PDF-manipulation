@@ -35,12 +35,13 @@ class DragDropListbox(Tkinter.Listbox):
             self.insert(Tkinter.END, file)
 
 class Application(Tkinter.Frame):
-    def __init__(self, master,ordered_list=None):
+    def __init__(self, master,ordered_list=None,old_list=None):
         super().__init__(master)
         self.master = master
         master.title('Drag and Drop Listbox')
         self.pack()
         self.ordered_list=ordered_list
+        self.old_list=old_list
         self.create_widgets()
         
         
@@ -49,7 +50,7 @@ class Application(Tkinter.Frame):
         self.listbox = DragDropListbox(self)
         self.listbox.pack(fill='both', expand=True, padx=10, pady=10)
 
-        for file in self.ordered_list:
+        for file in self.old_list:
             self.listbox.insert(Tkinter.END, file)
 
         self.upload_button = Tkinter.Button(self, text='Upload Files', command=self.listbox.upload_files)
@@ -61,7 +62,7 @@ class Application(Tkinter.Frame):
         self.process_button = Tkinter.Button(self, text='Process Files', command=self.process_files)
         self.process_button.pack()
 
-        self.quit = Tkinter.Button(self, text="Quit", command=self.master.destroy)
+        self.quit = Tkinter.Button(self, text="Quit", command=self.quit_listbox)
         self.quit.pack()
     
     def clear_list(self):
@@ -73,13 +74,10 @@ class Application(Tkinter.Frame):
     def process_files(self):
         """ Process files in the listbox. """
         current_order = self.listbox.get(0, Tkinter.END)
-        self.ordered_list=[l for l in current_order]
+        self.ordered_list.extend([l for l in current_order])
         self.master.destroy()
 
-# ordered_list=[]
-
-# root = Tkinter.Tk()
-# app = Application(root,ordered_list=ordered_list)
-# app.mainloop()
-
-# print(ordered_list)
+    def quit_listbox(self):
+        """ Quit the listbox. """
+        self.ordered_list.extend([l for l in self.old_list])
+        self.master.destroy()

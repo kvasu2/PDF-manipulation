@@ -223,11 +223,11 @@ class PDFApp(tk.Tk):
     def get_pdf_order(self):
         self.progress_1.config(text="Select and order PDFs...")
         self.progress_1.update_idletasks()
-
+        old_list = self.ordered_list.copy()
+        self.ordered_list = []
         sbroot = tk.Toplevel(self)
-        reorder.Application(sbroot,ordered_list=self.ordered_list)
-        
-        print(self.ordered_list)
+        reorder.Application(sbroot,ordered_list=self.ordered_list,old_list=old_list)
+
         
 
 
