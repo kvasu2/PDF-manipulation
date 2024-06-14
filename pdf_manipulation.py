@@ -1,34 +1,30 @@
 import os
 import csv
 import importlib
-
-#import PyPDF2
-
-#from PIL import Image
-
-#import cv2
-import numpy as np
 import shutil
+import PyPDF2
 
-def merge_pdfs(input_folder, output_folder):
-    PyPDF2=importlib.import_module('PyPDF2')
+class DecryptionError(Exception):
+    pass
+
+
+def merge_pdfs(input_folder, output_folder,merged_filename):
     pdf_writer = PyPDF2.PdfWriter()
 
     for filename in os.listdir(input_folder):
-        if filename.endswith('.pdf'):
+        if filename.lower().endswith('.pdf'):
             pdf_file = os.path.join(input_folder, filename)
             pdf_reader = PyPDF2.PdfReader(pdf_file)
             for page in range(len(pdf_reader.pages)):
                 pdf_writer.add_page(pdf_reader.pages[page])
 
-    merged_filename = 'merged.pdf'
+    #merged_filename = 'merged.pdf'
     output_path = os.path.join(output_folder, merged_filename)
 
     with open(output_path, 'wb') as fh:
         pdf_writer.write(fh)
 
-def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
-    PyPDF2=importlib.import_module('PyPDF2')
+def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder,merged_filename):
     with open(csv_path, 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         merger = PyPDF2.PdfMerger()
@@ -44,7 +40,7 @@ def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
                     bookmarks.append((bookmark_title,len(merger.pages)))
                 merger.append(reader)
 
-    merged_filename = 'merged.pdf'
+    #merged_filename = 'merged.pdf'
     output_path = os.path.join(output_folder, merged_filename)
 
     if bookmarks:
@@ -55,7 +51,7 @@ def merge_pdfs_with_bookmarks(input_folder, csv_path, output_folder):
         merger.write(f)
 
 
-def convert2pdf(input_dir,output_dir,enhance_img=False,delete_processed_images=False,delete_temp_pdfs=False):
+def convert2pdf(input_dir,output_dir,merged_filename,enhance_img=False,delete_processed_images=False,delete_temp_pdfs=False):
     Image = importlib.import_module('PIL.Image')
     
     
@@ -78,17 +74,18 @@ def convert2pdf(input_dir,output_dir,enhance_img=False,delete_processed_images=F
         os.makedirs(converted_pdfs_path)
 
     for input_image in image_paths:
-        pdf = open(os.path.join(converted_pdfs_path,input_image)+'.pdf', 'wb')
-        if enhance_img:
-            image = enhance_image(os.path.join(input_dir,input_image),os.path.join(output_dir,"enhanced_images",input_image))
-            image = Image.fromarray(image)
-        else:
-            image = Image.open(os.path.join(input_dir,input_image))
-        image = image.convert('RGB')
-        image.save(pdf, 'PDF')
-        pdf.close()
+        if input_image.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+            pdf = open(os.path.join(converted_pdfs_path,input_image)+'.pdf', 'wb')
+            if enhance_img:
+                image = enhance_image(os.path.join(input_dir,input_image),os.path.join(output_dir,"enhanced_images",input_image))
+                image = Image.fromarray(image)
+            else:
+                image = Image.open(os.path.join(input_dir,input_image))
+            image = image.convert('RGB')
+            image.save(pdf, 'PDF')
+            pdf.close()
     
-    merge_pdfs(converted_pdfs_path,output_dir)
+    merge_pdfs(converted_pdfs_path,output_dir,merged_filename)
 
     if delete_processed_images and enhance_img:
         shutil.rmtree(processed_image_path)
@@ -96,6 +93,7 @@ def convert2pdf(input_dir,output_dir,enhance_img=False,delete_processed_images=F
         shutil.rmtree(converted_pdfs_path)
 
 def enhance_image(image_path,output_path):
+    np = importlib.import_module('numpy')
     cv2 = importlib.import_module('cv2')
     img = cv2.imread(image_path)
     norm_img = np.zeros((img.shape[0], img.shape[1]))
@@ -113,23 +111,20 @@ def enhance_folder(img_dir, output_dir):
         enhance_image(os.path.join(img_dir,image),output_path)
 
 def pdf_splitter(path,out_dir,strt,ed):
-    PyPDF2=importlib.import_module('PyPDF2')
     fname = os.path.splitext(os.path.basename(path))[0]
 	
     pdf = PyPDF2.PdfReader(path)
     if pdf.isEncrypted:
-        try:
-            pdf.decrypt('')
-        except:
-            pdf.decrypt(input("Enter password: "))
+        if not pdf.decrypt(''):
+            simpledialog = importlib.import_module('tkinter.simpledialog')
+            password = simpledialog.askstring("Document is encrypted.", "Enter password:",show='*')
+            if not pdf.decrypt(password):
+                raise DecryptionError
+
 		
     pdf_writer = PyPDF2.PdfWriter()
-    try:
-        for page in range(strt-1,ed):
-            pdf_writer.add_page(pdf.page[page])
-    except:
-        print("Invalid page range")
-        return -1
+    for page in range(strt-1,ed):
+            pdf_writer.add_page(pdf.pages[page])
 
     output_filename =os.path.join( out_dir,'{}_pages_{}-{}.pdf'.format(fname, strt,ed))
 

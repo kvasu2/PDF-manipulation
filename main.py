@@ -3,8 +3,28 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
 import os
-import pdf_manipulation
 
+def module_install_info(module_name):
+    if module_name == "PIL":
+        return "pip install pillow"
+    elif module_name == "cv2":
+        return "pip install opencv-python"
+    elif module_name == "numpy":
+        return "pip install numpy"
+    elif module_name == "PyPDF2":
+        return "pip install PyPDF2"
+    else:
+        return "pip install " + module_name
+
+
+try:
+    import pdf_manipulation
+except ImportError as e:
+    messagebox.showerror("Error", f"{e.name} module is missing. Please install the required modules by running \n {module_install_info(e.name)}")
+    exit()
+
+
+    
 def select_folder_path():
     path = filedialog.askdirectory()
     folder_path_entry.delete(0, tk.END)
@@ -28,8 +48,9 @@ def select_folder_path_merge2():
 def run_img2pdf():
     input_dir = folder_path_entry.get()
     output_dir = folder_path_entry2.get()
-    checked = checkbox_var.get()
-    if checked == 1:
+    merged_filename=merged_file2.get()+".pdf"
+
+    if checkbox_var.get() == 1:
         enhance = True
     else:
         enhance = False
@@ -49,21 +70,36 @@ def run_img2pdf():
         messagebox.showerror("Error", "Please select both folder paths.")
         return
     
-    pdf_manipulation.convert2pdf(input_dir, output_dir, enhance, delete_processed_images, delete_temp_pdfs)
+    try:
+        pdf_manipulation.convert2pdf(input_dir, output_dir,merged_filename, enhance, delete_processed_images, delete_temp_pdfs)
+    except ImportError as e:
+        messagebox.showerror("Error", f"{e.name} module is missing. Please install the required modules by running \n{module_install_info(e.name)}")
+        exit()
 
+    except:
+        messagebox.showerror("Error", "Error converting images to PDFs. Make sure the input folder contains images.")
+        return
+        
+    
     messagebox.showinfo("Done", "Conversion to PDF successful.")
     root.destroy()
 
 def run_mergepdf():
     input_dir = input_entry.get()
     output_dir = output_entry.get()
+    merged_filename = merged_file1.get()+".pdf"
 
 
     if not input_dir or not output_dir:
         messagebox.showerror("Error", "Please select both folder paths.")
         return
     
-    pdf_manipulation.merge_pdfs(input_dir, output_dir)
+    try:
+        pdf_manipulation.merge_pdfs(input_dir, output_dir,merged_filename)
+    except:
+        messagebox.showerror("Error", "Error merging PDFs.")
+        return
+
 
     messagebox.showinfo("Done", "Merging PDFs successful.")
     root.destroy()
@@ -86,13 +122,18 @@ def run_splitpdf():
         return
 
 
-    
-    status = pdf_manipulation.pdf_splitter(input_dir, output_dir,start,end)
+    try:
+        status = pdf_manipulation.pdf_splitter(input_dir, output_dir,start,end)
+    except IndexError:
+        messagebox.showerror("Error", "Page numbers out of range. Please enter valid page numbers.")
+        return
+    except pdf_manipulation.DecryptionError:
+        messagebox.showerror("Error", "Document is encrypted. Please correct password.")
+        return
+
     if status ==0:
         messagebox.showinfo("Done", "Splitting PDFs successful.")
         root.destroy()
-    elif status==-1:
-        messagebox.showerror("Error", "Page numbers out of range. Please enter valid page numbers.")
     else:
         messagebox.showerror("Error", "Error splitting PDFs. Make sure the start and end pages are valid.")
 
@@ -136,6 +177,13 @@ output_entry.pack(pady=5)
 output_button = tk.Button(tab1, text="Select Output Folder", command=select_folder_path_merge2)
 output_button.pack(pady=5)
 
+merged_file_label = tk.Label(tab1, text="Merged File Name:")
+merged_file_label.pack(pady=10)
+
+merged_file1 = tk.Entry(tab1, width=50)
+merged_file1.insert(0, "merged")
+merged_file1.pack(pady=5)
+
 merge_button = tk.Button(tab1, text="Merge PDFs", command=run_mergepdf)
 merge_button.pack(pady=5)
 
@@ -169,6 +217,14 @@ folder_path_entry2.pack(pady=5)
 
 select_folder_button2 = ttk.Button(tab2, text="Select Folder", command=select_folder_path2)
 select_folder_button2.pack(pady=5)
+
+merged_file_label2 = tk.Label(tab2, text="Merged File Name:")
+merged_file_label2.pack(pady=10)
+
+merged_file2 = tk.Entry(tab2, width=50)
+merged_file2.insert(0, "merged")
+merged_file2.pack(pady=5)
+
 
 checkbox_var = tk.IntVar()
 checkbox = ttk.Checkbutton(tab2, text="Enhance images", variable=checkbox_var)
