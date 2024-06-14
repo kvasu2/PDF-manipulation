@@ -20,7 +20,7 @@ def module_install_info(module_name):
 try:
     import pdf_manipulation
 except ImportError as e:
-    messagebox.showerror("Error", f"{e.name} module is missing. Please install the required modules by running \n {module_install_info(e.name)}")
+    messagebox.showerror("Error", f"{e.name} module is missing. Please install the required modules by running \n{module_install_info(e.name)}")
     exit()
 
 
@@ -46,9 +46,11 @@ def select_folder_path_merge2():
     output_entry.insert(0, path)
 
 def run_img2pdf():
+    progress2.config(text="Converting images to PDF. Please wait...")
+    progress2.update_idletasks()
     input_dir = folder_path_entry.get()
     output_dir = folder_path_entry2.get()
-    merged_filename=merged_file2.get()+".pdf"
+    merged_filename=merged_file2.get()
 
     if checkbox_var.get() == 1:
         enhance = True
@@ -70,36 +72,48 @@ def run_img2pdf():
         messagebox.showerror("Error", "Please select both folder paths.")
         return
     
+    if not merged_filename:
+        messagebox.showerror("Error", "Please enter an output filename.")
+        return
+    merged_filename = merged_filename+".pdf"
+    
     try:
         pdf_manipulation.convert2pdf(input_dir, output_dir,merged_filename, enhance, delete_processed_images, delete_temp_pdfs)
     except ImportError as e:
         messagebox.showerror("Error", f"{e.name} module is missing. Please install the required modules by running \n{module_install_info(e.name)}")
         exit()
-
-    except:
-        messagebox.showerror("Error", "Error converting images to PDFs. Make sure the input folder contains images.")
+    except Exception as e:
+        messagebox.showerror("Error", f"{e.msg}")
         return
         
-    
+    progress2.config(text="Conversion to PDF successful.")
     messagebox.showinfo("Done", "Conversion to PDF successful.")
     root.destroy()
 
 def run_mergepdf():
+    progress1.config(text="Merging PDFs. Please wait...")
+    progress2.update_idletasks()
     input_dir = input_entry.get()
     output_dir = output_entry.get()
-    merged_filename = merged_file1.get()+".pdf"
+    merged_filename = merged_file1.get()
 
 
     if not input_dir or not output_dir:
         messagebox.showerror("Error", "Please select both folder paths.")
         return
     
+    if not merged_filename:
+        messagebox.showerror("Error", "Please enter an output filename.")
+        return
+    merged_filename = merged_filename+".pdf"
+    
     try:
         pdf_manipulation.merge_pdfs(input_dir, output_dir,merged_filename)
-    except:
-        messagebox.showerror("Error", "Error merging PDFs.")
+    except Exception as e:
+        messagebox.showerror("Error", f"{e.msg}")
         return
 
+    progress1.config(text="Merging PDFs successful.")
 
     messagebox.showinfo("Done", "Merging PDFs successful.")
     root.destroy()
@@ -130,13 +144,12 @@ def run_splitpdf():
     except pdf_manipulation.DecryptionError:
         messagebox.showerror("Error", "Document is encrypted. Please correct password.")
         return
+    except Exception as e:
+        messagebox.showerror("Error", f"{e.msg}")
+        return
 
-    if status ==0:
-        messagebox.showinfo("Done", "Splitting PDFs successful.")
-        root.destroy()
-    else:
-        messagebox.showerror("Error", "Error splitting PDFs. Make sure the start and end pages are valid.")
-
+    messagebox.showinfo("Done", "Splitting PDFs successful.")
+    root.destroy()
 
 
 root = tk.Tk() 
@@ -187,6 +200,10 @@ merged_file1.pack(pady=5)
 merge_button = tk.Button(tab1, text="Merge PDFs", command=run_mergepdf)
 merge_button.pack(pady=5)
 
+progress1 = tk.Label(tab1, text="")
+progress1.pack(pady=10)
+
+
 
 
 
@@ -198,8 +215,6 @@ merge_button.pack(pady=5)
 
 folder_path_label = ttk.Label(tab2, text="Input Folder:")
 folder_path_label.pack(pady=10)
-
-
 
 folder_path_entry = ttk.Entry(tab2, width=50)
 folder_path_entry.insert(0, input_path)
@@ -225,7 +240,6 @@ merged_file2 = tk.Entry(tab2, width=50)
 merged_file2.insert(0, "merged")
 merged_file2.pack(pady=5)
 
-
 checkbox_var = tk.IntVar()
 checkbox = ttk.Checkbutton(tab2, text="Enhance images", variable=checkbox_var)
 checkbox.pack(pady=5)
@@ -242,6 +256,9 @@ checkbox3.pack(pady=5)
 
 run_button = ttk.Button(tab2, text="Convert Images to PDF", command=run_img2pdf)
 run_button.pack(pady=5)
+
+progress2 = tk.Label(tab2, text="")
+progress2.pack(pady=10)
 
 
 

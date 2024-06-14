@@ -18,7 +18,6 @@ def merge_pdfs(input_folder, output_folder,merged_filename):
             for page in range(len(pdf_reader.pages)):
                 pdf_writer.add_page(pdf_reader.pages[page])
 
-    #merged_filename = 'merged.pdf'
     output_path = os.path.join(output_folder, merged_filename)
 
     with open(output_path, 'wb') as fh:
@@ -130,6 +129,5 @@ def pdf_splitter(path,out_dir,strt,ed):
 
     with open(output_filename, 'wb') as out:
         pdf_writer.write(out)
-        
-    return 0
+
 
