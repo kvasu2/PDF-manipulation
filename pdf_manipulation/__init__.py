@@ -12,7 +12,9 @@ def merge_pdfs(input_folder: str, output_folder: str,merged_filename: str) -> No
 
     Args:
         input_folder (str): Folder containing PDF files to merge.
+
         output_folder (str): Folder to save the merged PDF file.
+
         merged_filename (str): Name of the merged PDF file.
 
     Returns:
@@ -39,7 +41,9 @@ def merge_pdfs_in_order(files_list: list,output_folder: str,merged_filename: str
 
     Args:
         files_list (list): List of PDF filenames to merge.
+
         output_folder (str): Folder to save the merged PDF file.
+
         merged_filename (str): Name of the merged PDF file.
     
     Returns:
@@ -64,8 +68,11 @@ def convert2pdf_with_order(input_list: list,output_dir: str,merged_filename:str,
 
     Args:
         input_list (list): List of image filenames to convert to PDFs.
+
         output_dir (str): Folder to save the converted PDFs and the merged PDF file.
+
         merged_filename (str): Name of the merged PDF file.
+
         enhance_img (bool): Enhance the images before conversion. Default is False.
 
     Returns:
@@ -117,10 +124,15 @@ def convert2pdf(input_dir: str,output_dir: str,merged_filename: str,enhance_img:
 
     Args:
         input_dir (str): Folder containing images to convert to PDFs.
+
         output_dir (str): Folder to save the converted PDFs and the merged PDF file.
+
         merged_filename (str): Name of the merged PDF file.
+
         enhance_img (bool): Enhance the images before conversion. Default is False.
+
         delete_processed_images (bool): Delete the processed images after conversion. Default is False.
+
         delete_temp_pdfs (bool): Delete the temporary PDF files after merging. Default is False.
     
     Returns:
@@ -171,6 +183,7 @@ def enhance_image(image_path: str,output_path: str) -> np.ndarray:
 
     Args:
         image_path (str): Path to the image file.
+
         output_path (str): Path to save the enhanced image.
     
     Returns:
@@ -192,6 +205,7 @@ def enhance_images(input_dir: str,output_dir: str) -> None:
 
     Args:
         input_dir (str): Folder containing images to enhance.
+
         output_dir (str): Folder to save the enhanced images.
     
     Returns:
@@ -208,8 +222,11 @@ def pdf_splitter(path:str,out_dir:str,start_page:int,end_page:int) -> None:
 
     Args:
         path (str): Path to the PDF file.
+
         out_dir (str): Folder to save the split PDF files.
+
         start_page (int): Start page number.
+        
         end_page (int): End page number.
     
     Returns:
