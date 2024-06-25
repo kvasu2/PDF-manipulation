@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pdf-manipulation"
+name = "pdf_manipulation"
 version = "0.0.1"
 description = "A python package for manipulating PDFs"
 authors = [
