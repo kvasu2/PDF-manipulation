@@ -38,6 +38,6 @@ To use the package, import the functions as follows:
 
 .. code-block:: python
 
-    from pdf_manipulation import merge_pdfs, split_pdf, image_to_pdf, enhance_image
+    from pdf_manipulation import merge_pdfs, pdf_splitter, convert2pdf, enhance_image
 
 Look at the :doc:`functions` documentation for more information on how to use them.
