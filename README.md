@@ -1,3 +1,5 @@
+[![Documentation Status](https://readthedocs.org/projects/pdf-manipulation/badge/?version=latest)](https://pdf-manipulation.readthedocs.io/?badge=latest)
+
 # PDF-manipulation
 
 This application can

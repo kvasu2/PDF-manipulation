@@ -7,7 +7,7 @@ Welcome to PDF-Manipulation's documentation!
 ============================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    Home <self>
@@ -33,6 +33,7 @@ To install the package, run the following command:
 .. _usage:
 
 Usage
+=====
 
 To use the package, import the functions as follows:
 
