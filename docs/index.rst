@@ -40,4 +40,4 @@ To use the package, import the functions as follows:
 
     from pdf_manipulation import merge_pdfs, split_pdf, image_to_pdf, enhance_image
 
-Look at the :ref:`functions` documentation for more information on how to use them.
+Look at the :doc:`functions` documentation for more information on how to use them.
