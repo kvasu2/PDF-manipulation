@@ -14,10 +14,30 @@ Welcome to PDF-Manipulation's documentation!
    functions
 
 
+Introduction
+============
 
-Indices and tables
-==================
+This package is a collection of functions that can be used to manipulate PDF files. The functions are written in Python and can be used to merge PDFs, split PDFs, convert images to PDFs and enhance the images for better text visibility.
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. _installation:
+
+Installation
+============
+
+To install the package, run the following command:
+
+.. code-block:: bash
+
+    pip install pdf-manipulation
+
+.. _usage:
+
+Usage
+
+To use the package, import the functions as follows:
+
+.. code-block:: python
+
+    from pdf_manipulation import merge_pdfs, split_pdf, image_to_pdf, enhance_image
+
+Look at the :ref:`functions` documentation for more information on how to use them.
