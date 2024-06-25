@@ -8,4 +8,4 @@ This application can
 2. Convert image files to PDF and merge them into one. This has a feature of enhancing the images for clearer text.
 3. Split one pdf at certain page numbers
 
-Refer [documentation](https://readthedocs.org/projects/pdf-manipulation/) for installation and usage.
+Refer [documentation](https://pdf-manipulation.readthedocs.io/) for installation and usage.
