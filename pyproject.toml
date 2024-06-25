@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pdf_manipulation"
-version = "0.0.1"
+version = "0.0.2"
 description = "A python package for manipulating PDFs"
 authors = [
     { name = "Karthik Vasu", email = "karthikvasu09@gmail.com" },
