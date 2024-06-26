@@ -7,10 +7,11 @@ Welcome to PDF-Manipulation's documentation!
 ============================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
 
    Home <self>
+   usage
    functions
 
 
@@ -30,15 +31,3 @@ To install the package, run the following command:
 
     pip install pdf-manipulation
 
-.. _usage:
-
-Usage
-=====
-
-To use the package, import the functions as follows:
-
-.. code-block:: python
-
-    from pdf_manipulation import merge_pdfs, pdf_splitter, convert2pdf, enhance_image
-
-Look at the :doc:`functions` documentation for more information on how to use them.

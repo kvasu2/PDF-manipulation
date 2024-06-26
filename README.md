@@ -2,10 +2,22 @@
 
 # PDF-manipulation
 
-This application can
+The project contains code for manipulating pdfs with simple functions in python. Refer [documentation](https://pdf-manipulation.readthedocs.io/) for installation and usage.
 
-1. Merge different PDFs into one. The order is based on alphabetical order of the filenames
-2. Convert image files to PDF and merge them into one. This has a feature of enhancing the images for clearer text.
-3. Split one pdf at certain page numbers
+## Installation
 
-Refer [documentation](https://pdf-manipulation.readthedocs.io/) for installation and usage.
+```bash
+pip install pdf-manipulation
+```
+
+## Usage
+```python
+from pdf_manipulation import merge_pdfs, pdf_splitter, convert2pdf, enhance_image
+
+input_folder = ...             # Folder contatining PDFs to merge
+output_folder = ...            # Folder to store the output
+merged_filename = "merged.pdf" # File name for the merged file
+
+merge_pdfs(input_folder,output_folder,merged_filename)
+
+```
