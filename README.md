@@ -2,7 +2,7 @@
 
 # PDF-manipulation
 
-The project contains code for manipulating pdfs with simple functions in python. Refer [documentation](https://pdf-manipulation.readthedocs.io/) for installation and usage.
+The project contains code for manipulating pdfs with simple functions in python.
 
 ## Installation
 
@@ -21,3 +21,5 @@ merged_filename = "merged.pdf" # File name for the merged file
 merge_pdfs(input_folder,output_folder,merged_filename)
 
 ```
+
+Refer [documentation](https://pdf-manipulation.readthedocs.io/) for further usage information.
