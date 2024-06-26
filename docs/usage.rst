@@ -23,14 +23,14 @@ Split PDFs
 
 .. code-block:: python
 
-    from pdf_manipulation import split_pdfs
+    from pdf_manipulation import pdf_splitter
 
     path = ...                     # Path to PDF to split
     output_folder = ...            # Folder to store the output
     start_page = 1                 # Beginning page to split
     end_page = 5                   # Ending page to split
 
-    split_pdfs(path,output_folder,start_page,end_page)
+    pdf_splitter(path,output_folder,start_page,end_page)
 
 Convert Image to PDF
 --------------------
