@@ -1,5 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/pdf-manipulation/badge/?version=latest)](https://pdf-manipulation.readthedocs.io/?badge=latest)
 
+[![Downloads](https://static.pepy.tech/badge/pdf-manipulation)](https://pepy.tech/project/pdf-manipulation)
+
 # PDF-manipulation
 
 The project contains code for manipulating pdfs with simple functions in python.
